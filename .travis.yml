@@ -11,6 +11,8 @@ compiler:
   - clang
   - gcc
 
+cache: pip
+
 addons:
   apt:
     packages:
@@ -19,11 +21,12 @@ addons:
       - freeglut3-dev
       - libsdl2-dev
       - libosmesa6-dev
-      - python-dev
-      - python-numpy
-      - python-pil
 
 before_install:
+  #- sudo -H /opt/python/2.7.14/bin/pip install --upgrade pip
+  #- sudo -H /opt/python/2.7.14/bin/pip install numpy Pillow
+  - sudo -H /opt/python/3.6.3/bin/pip3 install --upgrade pip
+  - sudo -H /opt/python/3.6.3/bin/pip3 install numpy Pillow
   - curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -
   - echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list
   - sudo add-apt-repository -y ppa:webupd8team/java
@@ -34,6 +37,6 @@ before_install:
 
 script:
   - case "${CXX}" in
-      "g++")     bazel test --show_progress_rate_limit=20 -c opt --copt=-Wno-sign-compare --copt=-Wno-maybe-uninitialized //... ;;
-      "clang++") bazel test --show_progress_rate_limit=20 -c opt --copt=-Wno-sign-compare --copt=-Wno-uninitialized --cxxopt=-std=c++11 //... ;;
+      "g++")     bazel test --python_path=/opt/python/3.6.3/bin/python3.6 --show_progress_rate_limit=20 -c opt --copt=-Wno-sign-compare --copt=-Wno-maybe-uninitialized //... ;;
+      "clang++") bazel test --python_path=/opt/python/3.6.3/bin/python3.6 --show_progress_rate_limit=20 -c opt --copt=-Wno-sign-compare --copt=-Wno-uninitialized --cxxopt=-std=c++11 //... ;;
     esac

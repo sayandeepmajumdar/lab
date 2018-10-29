@@ -2,7 +2,7 @@
 
 env:
   global:
-    - PYSTUFF=(["abc"]=1 ["def"]=3)
+    - PYSTUFF=(["abc"]=1 ["def"]=2)
   matrix:
     - MYPY="abc"
     - MYPY="def"
